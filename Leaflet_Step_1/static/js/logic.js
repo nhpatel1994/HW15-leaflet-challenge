@@ -109,10 +109,26 @@ function createMap(earthquakes) {
     layers: [street, earthquakes]
   });
 
-  // Create a layer control. Pass it our baseMaps and overlayMaps. Add the layer control to the map.
-  L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(myMap);
+  // Create a legend.
+
+  var legend = L.control({ position: 'bottomright' });
+
+  legend.onAdd = function(map) {
+    var div = L.DomUtil.create("div", "info legend");
+    var depthLabels = [0,5,10,20,40,80];
+    var colors = ["#e6ffe6","#99ff99","#4dff4d","#00ff00","#00b300","#006600"];
+
+    for (var i = 0; i < depthLabels.length; i++) {
+        div.innerHTML += 
+            '<i style="background:'+ colors[i] + '"></i> ' +
+            depthLabels[i] + (depthLabels[i + 1] ? ' &ndash; ' + depthLabels[i + 1] + '<br>' : ' +');
+    }
+    return div;
+  };
+  legend.addTo(myMap);
 
   
 
-
+  // Create a layer control. Pass it our baseMaps and overlayMaps. Add the layer control to the map.
+  L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(myMap);
 }
