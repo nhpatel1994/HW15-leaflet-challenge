@@ -41,23 +41,23 @@ function createFeatures(earthquakeData) {
     // Darker shades for greater depth earthquakes
     function circleColor(feature)
     {
-      if (feature.geometry.coordinates[2] > 80) {
-        return "#006600";
+      if (feature.geometry.coordinates[2] > 90) {
+        return "#ff3333";
       }
-      else if (feature.geometry.coordinates[2] > 40) {
-        return "#00b300";
+      else if (feature.geometry.coordinates[2] > 70) {
+        return "#ff8000";
       }
-      else if (feature.geometry.coordinates[2] > 20) {
-        return "#00ff00";
+      else if (feature.geometry.coordinates[2] > 50) {
+        return "#ffb366";
+      }
+      else if (feature.geometry.coordinates[2] > 30) {
+        return "#ffd9b3";
       }
       else if (feature.geometry.coordinates[2] > 10) {
-        return "#4dff4d";
-      }
-      else if (feature.geometry.coordinates[2] > 5) {
-        return "#99ff99";
+        return "#ffff99";
       }
       else {
-        return "#e6ffe6";
+        return "#b3ff66";
       }
     }
 
@@ -73,7 +73,7 @@ function createFeatures(earthquakeData) {
           fillOpacity: 0.75,
           fillColor: circleColor(feature),
           color: 'black', //add color function,
-          radius: feature.properties.mag * 5,
+          radius: feature.properties.mag * 6,
           weight: 1
         }
       }
@@ -115,12 +115,14 @@ function createMap(earthquakes) {
 
   legend.onAdd = function(map) {
     var div = L.DomUtil.create("div", "info legend");
-    var depthLabels = [0,5,10,20,40,80];
-    var colors = ["#e6ffe6","#99ff99","#4dff4d","#00ff00","#00b300","#006600"];
+    var depthLabels = [0,10,30,50,70,90];
+    var colors = ["#b3ff66","#ffff99","#ffd9b3","#ffb366","#ff8000","#ff3333"];
+
+    div.innerHTML = '<center>Depth of<br>Earthquake<center>'
 
     for (var i = 0; i < depthLabels.length; i++) {
         div.innerHTML += 
-            '<i style="background:'+ colors[i] + '"></i> ' +
+            '<li style="background:'+ colors[i] + '"></li> ' +
             depthLabels[i] + (depthLabels[i + 1] ? ' &ndash; ' + depthLabels[i + 1] + '<br>' : ' +');
     }
     return div;
